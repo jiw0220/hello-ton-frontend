@@ -36,7 +36,7 @@ const wallet = ref<ConnectedWallet | null>(null);
 const loading = ref(false);
 onMounted(async () => {
   tonConnectUI = new TonConnectUI({
-    manifestUrl: 'https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json',
+    manifestUrl: 'https://jiw0220.github.io/hello-ton-frontend/tonconnect-manifest.json',
   });
   tonConnectUI.onStatusChange(
     (_wallet: ConnectedWallet | null) => {
