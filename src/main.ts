@@ -5,6 +5,8 @@ import moment from 'moment';
 import { pinia } from './stores/index';
 import './tailwind.css';
 import './style.css';
+// import telegram mini app sdk
+import '@twa-dev/sdk';
 
 moment.locale('en-us');
 
