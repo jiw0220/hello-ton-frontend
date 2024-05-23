@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from 'url';
 import { defineConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import vue from '@vitejs/plugin-vue';
-const PUBLIC_URL = '';
+const PUBLIC_URL = '/hello-ton-frontend/';
 
 export default defineConfig((options) => {
   const mode = options.mode; //development production
@@ -17,6 +17,9 @@ export default defineConfig((options) => {
     base: isDev ? '' : PUBLIC_URL,
     resolve: {
       alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
+    },
+    build: {
+      outDir: 'docs',
     },
     server: {
       open: true,
