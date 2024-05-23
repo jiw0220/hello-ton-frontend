@@ -11,4 +11,9 @@ export const routes = [
     path: '/home',
     component: () => import('@/pages/home/index.vue'),
   },
+  {
+    name: 'test',
+    path: '/test',
+    component: () => import('@/pages/test/index.vue'),
+  },
 ];
