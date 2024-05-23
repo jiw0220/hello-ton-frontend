@@ -20,7 +20,7 @@ function onPressNext() {
 }
 
 function onPressEMCHub() {
-  location.href = `https://emchub.ai/#/auth?launch=redirect&client=1234&redirect=https%3A%2F%2Fwww.baidu.com&scope=read`;
+  location.href = `https://emchub.ai/#/auth?launch=popup&client=1234&redirect=https%3A%2F%2Fwww.baidu.com&scope=read`;
   // location.href = `http://localhost:5173/#/auth?launch=redirect&client=1234&redirect=https%3A%2F%2Fwww.baidu.com&scope=read`;
 }
 function onPressSet() {
