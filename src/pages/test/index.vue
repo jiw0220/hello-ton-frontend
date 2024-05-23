@@ -13,6 +13,10 @@
         <div class="item-label">Wallet Account Address</div>
         <div class="item-value">{{ wallet.account.address }}</div>
       </div>
+      <div class="item">
+        <div class="item-label">Ton Balance</div>
+        <div class="item-value">{{ fromNano(tonBalance) }}</div>
+      </div>
       <NButton type="primary" size="large" strong :loading="loading" @click="onPressSendTransaction">Send Transaction</NButton>
       <NButton type="primary" size="large" strong @click="onPressDisconnect">Disconnect</NButton>
     </template>
@@ -29,30 +33,26 @@ import { TonConnectUI, type ConnectedWallet, type TonConnectError } from '@tonco
 import { TonClient } from '@ton/ton';
 import { getHttpEndpoint } from '@orbs-network/ton-access';
 import { Counter } from './Counter';
-import { Address, type OpenedContract, type SenderArguments } from '@ton/core';
+import { Address, type OpenedContract, type SenderArguments, fromNano } from '@ton/core';
 let tonConnectUI: TonConnectUI | null = null;
 let tonClient: TonClient | null = null;
 let counterContract: OpenedContract<Counter> | null = null;
 const counterAddress = ref('EQArIeL-WjHMKdQ89SLT0fWMPcEAfsHkwZ3wu1SEy92zto1N');
 const counterValue = ref<bigint>(0n);
 const wallet = ref<ConnectedWallet | null>(null);
+const tonBalance = ref<bigint>(0n);
 const loading = ref(false);
 onMounted(async () => {
   tonConnectUI = new TonConnectUI({
     manifestUrl: 'https://jiw0220.github.io/hello-ton-frontend/tonconnect-manifest.json',
   });
   tonConnectUI.onStatusChange(
-    (_wallet: ConnectedWallet | null) => {
+    async (_wallet: ConnectedWallet | null) => {
       wallet.value = _wallet;
-
+      tonBalance.value = await tonClient!.getBalance(Address.parse(wallet.value!.account.address));
       /**
        * account
-       * {
-        "address": "0:44ed450ee8693adf8f4eb8a3e0ebb07c1e2921b37395cf654591eef0e96c33a4",
-        "chain": "-3",
-        "walletStateInit": "te6cckECFgEAAwQAAgE0AgEAUQAAAAApqaMX8FbQT4HcdaMGD0YUO+QqyAA+21J8IkVSHPEIVAd9jrpAART/APSkE/S88sgLAwIBIAkEBPjygwjXGCDTH9Mf0x8C+CO78mTtRNDTH9Mf0//0BNFRQ7ryoVFRuvKiBfkBVBBk+RDyo/gAJKTIyx9SQMsfUjDL/1IQ9ADJ7VT4DwHTByHAAJ9sUZMg10qW0wfUAvsA6DDgIcAB4wAhwALjAAHAA5Ew4w0DpMjLHxLLH8v/CAcGBQAK9ADJ7VQAbIEBCNcY+gDTPzBSJIEBCPRZ8qeCEGRzdHJwdIAYyMsFywJQBc8WUAP6AhPLassfEss/yXP7AABwgQEI1xj6ANM/yFQgR4EBCPRR8qeCEG5vdGVwdIAYyMsFywJQBs8WUAT6AhTLahLLH8s/yXP7AAIAbtIH+gDU1CL5AAXIygcVy//J0Hd0gBjIywXLAiLPFlAF+gIUy2sSzMzJc/sAyEAUgQEI9FHypwICAUgTCgIBIAwLAFm9JCtvaiaECAoGuQ+gIYRw1AgIR6STfSmRDOaQPp/5g3gSgBt4EBSJhxWfMYQCASAODQARuMl+1E0NcLH4AgFYEg8CASAREAAZrx32omhAEGuQ64WPwAAZrc52omhAIGuQ64X/wAA9sp37UTQgQFA1yH0BDACyMoHy//J0AGBAQj0Cm+hMYALm0AHQ0wMhcbCSXwTgItdJwSCSXwTgAtMfIYIQcGx1Z70ighBkc3RyvbCSXwXgA/pAMCD6RAHIygfL/8nQ7UTQgQFA1yH0BDBcgQEI9ApvoTGzkl8H4AXTP8glghBwbHVnupI4MOMNA4IQZHN0crqSXwbjDRUUAIpQBIEBCPRZMO1E0IEBQNcgyAHPFvQAye1UAXKwjiOCEGRzdHKDHrFwgBhQBcsFUAPPFiP6AhPLassfyz/JgED7AJJfA+IAeAH6APQEMPgnbyIwUAqhIb7y4FCCEHBsdWeDHrFwgBhQBMsFJs8WWPoCGfQAy2kXyx9SYMs/IMmAQPsABsIFq/k=",
-        "publicKey": "f056d04f81dc75a3060f46143be42ac8003edb527c2245521cf10854077d8eba"
-        }
+       * { "address": "0:44ed450ee8693adf8f4eb8a3e0ebb07c1e2921b37395cf654591eef0e96c33a4"}
        */
     },
     (err: TonConnectError) => {
