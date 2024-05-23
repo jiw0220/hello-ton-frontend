@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <NButton type="primary" size="large" strong @click="onPressNext">Go Next Page</NButton>
+    <NButton type="primary" size="large" strong @click="onPressEMCHub">Go EMC Hub</NButton>
   </div>
 </template>
 
@@ -12,6 +13,11 @@ const router = useRouter();
 function onPressNext() {
   router.push({ name: 'test' });
 }
+
+function onPressEMCHub() {
+  location.href = `https://emchub.ai/#/auth?launch=redirect&client=1234&redirect=https%3A%2F%2Fwww.baidu.com&scope=read`;
+}
+
 </script>
 
 <style scoped>
