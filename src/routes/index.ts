@@ -4,7 +4,7 @@ import { routes } from './routes';
 
 export default function createAppRouter(routes: any) {
   const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(import.meta.url),
     routes,
     scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
