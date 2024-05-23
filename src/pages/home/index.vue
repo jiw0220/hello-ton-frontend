@@ -1,7 +1,8 @@
 <template>
   <div class="page">
     <NButton type="primary" size="large" strong @click="onPressNext">Go Next Page</NButton>
-    <NButton type="primary" size="large" strong @click="onPressEMCHub">Go EMC Hub</NButton>
+    <NButton type="primary" size="large" strong @click="onPressEMCHubPopup">Go EMC Hub Popup</NButton>
+    <NButton type="primary" size="large" strong @click="onPressEMCHubRedirect">Go EMC Hub Redirect</NButton>
 
     <NButton type="primary" size="large" strong @click="onPressSet">Set Session Storage</NButton>
 
@@ -13,16 +14,47 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { NButton, useMessage } from 'naive-ui';
+
+import { signInWithPopup, signInWithRedirect, getRedirectResult } from '@emcecosystem/emchub-auth-client';
+
+async function onPressEMCHubPopup() {
+  const options = { client: '1234' };
+  const [err, data] = await signInWithPopup(options);
+  if (err) return window.alert(err);
+  const code = data.code;
+  window.alert(`code: ${code}`);
+}
+
+async function onPressEMCHubRedirect() {
+  const options = { client: '1234', redirect: location.href };
+  sessionStorage.setItem('redrect', '1');
+  const [err, data] = await signInWithRedirect(options);
+  if (err) return window.alert(err);
+  location.href = data!.url;
+}
+
+//Handle redirect result
+onMounted(async () => {
+  const redirectFlag = sessionStorage.getItem('redrect');
+  if (redirectFlag) {
+    sessionStorage.removeItem('redrect');
+    const [err, data] = await getRedirectResult();
+    if (err) return window.alert(err);
+    const code = data!.code;
+    window.alert(`code: ${code}`);
+    /**  Send a request using code to get accessToken and userInfo in backend
+     *   Example code:
+     *   await http.post({ url: 'backend url', data: { code } });
+     */
+  }
+});
+
 const router = useRouter();
 const message = useMessage();
 function onPressNext() {
   router.push({ name: 'test' });
 }
 
-function onPressEMCHub() {
-  location.href = `https://emchub.ai/#/auth?launch=popup&client=1234&redirect=https%3A%2F%2Fwww.baidu.com&scope=read`;
-  // location.href = `http://localhost:5173/#/auth?launch=redirect&client=1234&redirect=https%3A%2F%2Fwww.baidu.com&scope=read`;
-}
 function onPressSet() {
   sessionStorage.setItem('kk', 'hello?');
 }
@@ -34,6 +66,7 @@ function onPressGet() {
 
 <style scoped>
 .page {
+  margin: auto;
   padding: 24px;
   display: flex;
   flex-direction: column;
