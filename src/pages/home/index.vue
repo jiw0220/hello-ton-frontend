@@ -4,6 +4,8 @@
     <NButton type="primary" size="large" strong @click="onPressEMCHubPopup">Go EMC Hub Popup</NButton>
     <NButton type="primary" size="large" strong @click="onPressEMCHubRedirect">Go EMC Hub Redirect</NButton>
 
+    <NButton type="primary" size="large" strong @click="onPressShowAlert">MiniAppAlert</NButton>
+
     <NButton type="primary" size="large" strong @click="onPressSet">Set Session Storage</NButton>
 
     <NButton type="primary" size="large" strong @click="onPressGet">Get Session Storage</NButton>
@@ -14,7 +16,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { NButton, useMessage } from 'naive-ui';
-
+import WebApp from '@twa-dev/sdk';
 import { signInWithPopup, signInWithRedirect, getRedirectResult } from '@emcecosystem/emchub-auth-client';
 
 async function onPressEMCHubPopup() {
@@ -53,6 +55,10 @@ const router = useRouter();
 const message = useMessage();
 function onPressNext() {
   router.push({ name: 'test' });
+}
+
+function onPressShowAlert() {
+  WebApp.showAlert('Hey there!');
 }
 
 function onPressSet() {
