@@ -13,6 +13,7 @@ declare module '*.jpg';
 declare interface Window {
   $loadingBar: any;
   createOjcectURL?: (file: File) => string;
+  web_app_setup_closing_behavior: (options: any) => void;
 }
 
 type Resp = {
