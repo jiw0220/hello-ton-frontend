@@ -16,9 +16,9 @@ app.use(router);
 app.use(pinia);
 app.mount('#app');
 
-// if (typeof window.web_app_setup_closing_behavior === 'function') {
-//   window.web_app_setup_closing_behavior({
-//     shouldConfirm: true,
-//     confirmText: 'Are you sure you want to exit? Your data will be lost.',
-//   });
-// }
+if (typeof window.web_app_setup_closing_behavior === 'function') {
+  window.web_app_setup_closing_behavior({
+    shouldConfirm: true,
+    confirmText: 'Are you sure you want to exit? Your data will be lost.',
+  });
+}
