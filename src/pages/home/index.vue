@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <div>isInTelegram: {{ isInTelegram }}</div>
     <NButton type="primary" size="large" strong @click="onPressNext">Go Next Page</NButton>
     <NButton type="primary" size="large" strong @click="onPressEMCHubPopup">Go EMC Hub Popup</NButton>
     <NButton type="primary" size="large" strong @click="onPressEMCHubRedirect">Go EMC Hub Redirect</NButton>
@@ -26,6 +27,8 @@ async function onPressEMCHubPopup() {
   const code = data.code;
   window.alert(`code: ${code}`);
 }
+
+const isInTelegram = ref(typeof window.Telegram !== 'undefined');
 
 async function onPressEMCHubRedirect() {
   const options = { client: '1234', redirect: location.href };

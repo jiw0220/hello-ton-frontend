@@ -12,6 +12,7 @@ declare module '*.jpg';
 
 declare interface Window {
   $loadingBar: any;
+  Telegram: any;
   createOjcectURL?: (file: File) => string;
   web_app_setup_closing_behavior: (options: any) => void;
 }
