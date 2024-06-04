@@ -8,6 +8,9 @@ import './style.css';
 // import telegram mini app sdk
 import '@twa-dev/sdk';
 
+// import eruda from 'eruda';
+// eruda.init();
+
 moment.locale('en-us');
 
 const app = createApp(AppSetup);

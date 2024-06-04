@@ -28,6 +28,8 @@ async function onPressEMCHubPopup() {
   window.alert(`code: ${code}`);
 }
 
+//pc(windows): "tdesktop", pc(macos): "macos", mobile(ios): "ios", mobile(android): "android"
+//Not in telegram is "unknown"
 const platform = ref(WebApp.platform);
 
 async function onPressEMCHubRedirect() {
