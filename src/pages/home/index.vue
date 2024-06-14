@@ -2,7 +2,7 @@
   <div class="page">
     <div>platform: {{ platform }}</div>
     <div>Telegram Mini App User: {{ userInfo }}</div>
-    <NInput type="textarea" :value="authDataRaw"></NInput>
+    <NInput type="textarea" :value="authDataRaw" :disabled="true"></NInput>
     <NButton type="primary" size="large" strong @click="onPressSignForTelegram">Sign for telegram</NButton>
     <NButton type="primary" size="large" strong @click="onPressEMCHubPopup">Go EMC Hub Popup</NButton>
     <NButton type="primary" size="large" strong @click="onPressEMCHubRedirect">Go EMC Hub Redirect</NButton>
