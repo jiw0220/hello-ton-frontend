@@ -12,13 +12,13 @@ export const routes = [
     component: () => import('@/pages/home/index.vue'),
   },
   {
-    name: 'test',
-    path: '/test',
-    component: () => import('@/pages/test/index.vue'),
+    name: 'oauth',
+    path: '/oauth',
+    component: () => import('@/pages/oauth/index.vue'),
   },
   {
-    name: 'wallet',
-    path: '/wallet',
-    component: () => import('@/pages/wallet/index.vue'),
+    name: 'ton',
+    path: '/ton',
+    component: () => import('@/pages/ton/index.vue'),
   },
 ];

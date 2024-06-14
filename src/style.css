@@ -13,17 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --bg-color: #08070a;
-  --fg-color: #17161b;
-  --border-color: #32303a;
-
-  --primary-color: #6c2cfd;
-  --error-color: #ff6633;
-
-  --text-color0: #f7f7f7;
-  --text-color1: #a1a0a0;
-  --text-color2: #69656f;
-
   --screen-max-width: 1400px;
   --screen-min-width: 1200px;
   --header-height: 72px;

@@ -16,16 +16,11 @@ import { onMounted, ref } from 'vue';
 import { useLoadingBar, NSpin } from 'naive-ui';
 
 const loadingBar = useLoadingBar();
-// const userStore = useUserStore();
 
 const loading = ref(false);
 
 onMounted(async () => {
   window.$loadingBar = loadingBar;
-
-  // loading.value = true;
-  // await userStore.initUser();
-  // loading.value = false;
 });
 </script>
 <style scoped>

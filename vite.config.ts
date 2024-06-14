@@ -24,13 +24,6 @@ export default defineConfig((options) => {
     server: {
       open: true,
       host: '0.0.0.0',
-      // proxy: {
-      //   "/api": {
-      //     target: "https://emchub.ai",
-      //     changeOrigin: true,
-      //     rewrite: (path) => path.replace(/^\/api/, ""),
-      //   },
-      // },
     },
     define: {
       // enable hydration mismatch details in production build

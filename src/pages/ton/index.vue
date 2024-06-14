@@ -102,6 +102,7 @@ async function onPressSendTransaction() {
 
 <style scoped>
 .page {
+  margin: auto;
   padding: 24px;
   display: flex;
   flex-direction: column;

@@ -1,5 +1,4 @@
 import { Axios } from 'axios';
-import { Utils } from '@/tools/utils';
 
 const HTTP_METHOD = {
   GET: 'GET',
@@ -16,20 +15,11 @@ interface HttpConfig {
 }
 
 const _defaultHttpConfig = {
-  baseURL: 'https://emchub.ai', //(import.meta as any).env.MODE === 'development' ? '/api' : 'https://emchub.ai',
+  baseURL: '',
 };
-
-type Session = {
-  token: '';
-  [k: string]: string;
-};
-
-const STORAGE_KEY = 'emchub.session';
 
 class Http {
   private client: Axios;
-  private session: Session | null = null;
-
   static _instance: any;
 
   constructor(config?: HttpConfig) {
@@ -38,7 +28,6 @@ class Http {
       (response) => response,
       (error) => error.response || {}
     );
-    this.initSession();
   }
 
   static getInstance() {
@@ -46,25 +35,6 @@ class Http {
       Http._instance = new Http();
     }
     return Http._instance;
-  }
-
-  initSession() {
-    const session = Utils.getLocalStorage(STORAGE_KEY);
-    if (session) {
-      this.setSession(session);
-    }
-  }
-
-  clearSession() {
-    this.session = null;
-    Utils.removeLocalStorage(STORAGE_KEY);
-  }
-
-  setSession(session: Session) {
-    if (session && session.token) {
-      Utils.setLocalStorage(STORAGE_KEY, session);
-      this.session = session;
-    }
   }
 
   _formatOptions(method: string, options: any) {
@@ -118,12 +88,6 @@ class Http {
       options.method = 'PUT';
       options.headers['content-type'] = 'application/json';
     }
-    // if (this.session) {
-    //   const and = options.url.includes('?') ? '&' : '?';
-    //   const session = this.session as Session;
-    //   const sessionStr = `sid=${session.token}`;
-    //   options.url = `${options.url}${and}${sessionStr}`;
-    // }
     return options;
   }
 
@@ -175,16 +139,6 @@ class Http {
 
   postJSON(options: any) {
     const _opt = this._formatOptions(HTTP_METHOD.POST_JSON, options);
-    return this.client?.request(_opt).then(this._handler(_opt));
-  }
-
-  delete(options: any) {
-    const _opt = this._formatOptions(HTTP_METHOD.DELETE, options);
-    return this.client?.request(_opt).then(this._handler(_opt));
-  }
-
-  put(options: any) {
-    const _opt = this._formatOptions(HTTP_METHOD.PUT, options);
     return this.client?.request(_opt).then(this._handler(_opt));
   }
 }

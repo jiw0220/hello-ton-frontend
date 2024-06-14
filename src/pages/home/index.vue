@@ -1,25 +1,32 @@
 <template>
   <div class="page">
+    <h3>Telegram Mini App Demo</h3>
     <div>platform: {{ platform }}</div>
-    <div>Telegram Mini App User: {{ userInfo }}</div>
-    <NInput type="textarea" :value="authDataRaw" :disabled="true"></NInput>
-    <NButton type="primary" size="large" strong @click="onPressSignForTelegram">Sign for telegram</NButton>
-    <NButton type="primary" size="large" strong @click="onPressEMCHubPopup">Go EMC Hub Popup</NButton>
-    <NButton type="primary" size="large" strong @click="onPressEMCHubRedirect">Go EMC Hub Redirect</NButton>
-    <NButton type="primary" size="large" strong @click="onPressShowAlert">MiniAppAlert</NButton>
-    <NButton type="primary" size="large" strong @click="onPressSet">Test Set Window.SessionStorage</NButton>
-    <NButton type="primary" size="large" strong @click="onPressGet">Test Get Window.SessionStorage</NButton>
-    <NButton type="primary" size="large" style="margin-top: 24px" strong @click="onPressNext">Go Next Page</NButton>
+    <template v-if="isInTelegram">
+      <NAlert type="warning">Please open in the mini app</NAlert>
+    </template>
+    <template v-else>
+      <div class="item">
+        <h5>Auth Data Parameters</h5>
+        <NInput type="textarea" :value="authDataRaw" :autosize="false" :disabled="true"></NInput>
+      </div>
+      <div class="item">
+        <h5>Telegram Mini App User</h5>
+        <NInput type="textarea" :value="userInfo" :autosize="false" :disabled="true"></NInput>
+      </div>
+      <NButton type="primary" size="large" strong @click="onPressSignForTelegram">Sign for Telegram</NButton>
+      <NButton type="primary" size="large" strong @click="onPressShowAlert">MiniApp Alert</NButton>
+      <NButton type="primary" size="large" strong @click="onPressTon">Test Ton</NButton>
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { NButton, NInput, useMessage, useNotification } from 'naive-ui';
+import { NButton, NInput, NAlert, useNotification } from 'naive-ui';
 import WebApp from '@twa-dev/sdk';
 import { retrieveLaunchParams } from '@tma.js/sdk';
-import { signInWithPopup, signInWithRedirect, getRedirectResult } from '@emcecosystem/emchub-auth-client';
 import { http } from '@/tools/http';
 
 //pc(windows): "tdesktop", pc(macos): "macos", mobile(ios): "ios", mobile(android): "android"
@@ -30,7 +37,7 @@ const userInfo = ref('');
 const authDataRaw = ref('');
 const notification = useNotification();
 const router = useRouter();
-const message = useMessage();
+
 async function onPressSignForTelegram() {
   if (!authDataRaw.value) {
     notification.warning({ title: 'Failed', content: 'Please open in the mini app' });
@@ -43,36 +50,7 @@ async function onPressSignForTelegram() {
   userInfo.value = JSON.stringify(resp.data);
 }
 
-async function onPressEMCHubPopup() {
-  const options = { client: '1234' };
-  const [err, data] = await signInWithPopup(options);
-  if (err) return window.alert(err);
-  const code = data.code;
-  window.alert(`code: ${code}`);
-}
-
-async function onPressEMCHubRedirect() {
-  const options = { client: '1234', redirect: location.href };
-  sessionStorage.setItem('redrect', '1');
-  const [err, data] = await signInWithRedirect(options);
-  if (err) return window.alert(err);
-  location.href = data!.url;
-}
-
-//Handle redirect result
 onMounted(async () => {
-  const redirectFlag = sessionStorage.getItem('redrect');
-  if (redirectFlag) {
-    sessionStorage.removeItem('redrect');
-    const [err, data] = await getRedirectResult();
-    if (err) return window.alert(err);
-    const code = data!.code;
-    window.alert(`code: ${code}`);
-    /**  Send a request using code to get accessToken and userInfo in backend
-     *   Example code:
-     *   await http.post({ url: 'backend url', data: { code } });
-     */
-  }
   if (isInTelegram) {
     const { initDataRaw } = retrieveLaunchParams();
     if (initDataRaw) {
@@ -81,20 +59,12 @@ onMounted(async () => {
   }
 });
 
-function onPressNext() {
-  router.push({ name: 'test' });
-}
-
 function onPressShowAlert() {
   WebApp.showAlert('Hey there!');
 }
 
-function onPressSet() {
-  sessionStorage.setItem('kk', 'hello?');
-}
-function onPressGet() {
-  const msg = sessionStorage.getItem('kk');
-  message.info(msg || 'none');
+function onPressTon() {
+  router.push({ name: 'ton' });
 }
 </script>
 
@@ -109,8 +79,9 @@ function onPressGet() {
 .item {
   padding: 12px 16px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   border: solid 1px #565656;
+  gap: 8px 0;
 }
 .item-label {
   width: 120px;
