@@ -25,6 +25,7 @@ import { http } from '@/tools/http';
 //pc(windows): "tdesktop", pc(macos): "macos", mobile(ios): "ios", mobile(android): "android"
 //Not in telegram is "unknown"
 const platform = ref(WebApp.platform);
+const isInTelegram = WebApp.platform !== 'unknown';
 const userInfo = ref('');
 const authDataRaw = ref('');
 const notification = useNotification();
@@ -72,10 +73,11 @@ onMounted(async () => {
      *   await http.post({ url: 'backend url', data: { code } });
      */
   }
-
-  const { initDataRaw } = retrieveLaunchParams();
-  if (initDataRaw) {
-    authDataRaw.value = initDataRaw;
+  if (isInTelegram) {
+    const { initDataRaw } = retrieveLaunchParams();
+    if (initDataRaw) {
+      authDataRaw.value = initDataRaw;
+    }
   }
 });
 
