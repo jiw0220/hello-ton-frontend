@@ -3,7 +3,7 @@ export default {
     fontFamily: 'Roboto, Helvetica, Tahoma, Arial',
     textColor1: 'var(--text-color0)', //'rgba(255,255,255,0.9)',
     textColor2: 'var(--text-color0)', //'rgba(255,255,255,0.82)',
-    primaryColor: 'var(--primary-color)',
+    primaryColor: '#6c2cfd',
     bodyColor: 'var(--bg-color)',
   },
   Input: {
@@ -55,14 +55,14 @@ export default {
     borderRadiusMedium: '6px',
     borderRadiusLarge: '8px',
     // normal
-    rippleColor: 'var(--primary-color)',
-    colorPrimary: 'var(--primary-color)',
-    colorDisabledPrimary: 'var(--primary-color)',
-    textColorTextPrimary: 'var(--primary-color)',
-    textColorGhostPrimary: 'var(--primary-color)',
-    textColorGhostDisabledPrimary: 'var(--primary-color)',
-    borderPrimary: 'var(--primary-color)',
-    borderDisabledPrimary: 'var(--primary-color)',
+    rippleColor: '#6c2cfd',
+    colorPrimary: '#6c2cfd',
+    colorDisabledPrimary: '#6c2cfd',
+    textColorTextPrimary: '#6c2cfd',
+    textColorGhostPrimary: '#6c2cfd',
+    textColorGhostDisabledPrimary: '#6c2cfd',
+    borderPrimary: '#6c2cfd',
+    borderDisabledPrimary: '#6c2cfd',
     // depth -1
     textColorHover: 'var(--text-color0)',
     textColorFocus: 'var(--text-color0)',
@@ -91,11 +91,11 @@ export default {
     borderPressedPrimary: '1px solid #45299BFF',
   },
   Tabs: {
-    tabTextColorActive: 'var(--primary-color)',
-    tabTextColorHover: 'var(--primary-color)',
-    barColor: 'var(--primary-color)',
+    tabTextColorActive: '#6c2cfd',
+    tabTextColorHover: '#6c2cfd',
+    barColor: '#6c2cfd',
   },
   LoadingBar: {
-    colorLoading: 'var(--primary-color)',
+    colorLoading: '#6c2cfd',
   },
 };

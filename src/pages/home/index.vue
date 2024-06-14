@@ -61,7 +61,7 @@ onMounted(async () => {
   if (initDataRaw) {
     authDataRaw.value = initDataRaw;
 
-    const resp = await http.post({
+    const resp = await http.postJSON({
       url: 'https://dev.emchub.ai/api/v1/auth/telegram',
       data: { raw: initDataRaw },
     });
