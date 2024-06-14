@@ -1,24 +1,25 @@
 <template>
   <div class="page">
     <div>platform: {{ platform }}</div>
+    <div>Telegram Mini App User: {{ userInfo }}</div>
+    <NInput type="textarea" :value="authDataRaw"></NInput>
     <NButton type="primary" size="large" strong @click="onPressNext">Go Next Page</NButton>
     <NButton type="primary" size="large" strong @click="onPressEMCHubPopup">Go EMC Hub Popup</NButton>
     <NButton type="primary" size="large" strong @click="onPressEMCHubRedirect">Go EMC Hub Redirect</NButton>
-
     <NButton type="primary" size="large" strong @click="onPressShowAlert">MiniAppAlert</NButton>
-
-    <NButton type="primary" size="large" strong @click="onPressSet">Set Session Storage</NButton>
-
-    <NButton type="primary" size="large" strong @click="onPressGet">Get Session Storage</NButton>
+    <NButton type="primary" size="large" strong @click="onPressSet">Test Set Window.SessionStorage</NButton>
+    <NButton type="primary" size="large" strong @click="onPressGet">Test Get Window.SessionStorage</NButton>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { NButton, useMessage } from 'naive-ui';
+import { NButton, NInput, useMessage } from 'naive-ui';
 import WebApp from '@twa-dev/sdk';
+import { retrieveLaunchParams } from '@tma.js/sdk';
 import { signInWithPopup, signInWithRedirect, getRedirectResult } from '@emcecosystem/emchub-auth-client';
+import { http } from '@/tools/http';
 
 async function onPressEMCHubPopup() {
   const options = { client: '1234' };
@@ -31,6 +32,8 @@ async function onPressEMCHubPopup() {
 //pc(windows): "tdesktop", pc(macos): "macos", mobile(ios): "ios", mobile(android): "android"
 //Not in telegram is "unknown"
 const platform = ref(WebApp.platform);
+const userInfo = ref('');
+const authDataRaw = ref('');
 
 async function onPressEMCHubRedirect() {
   const options = { client: '1234', redirect: location.href };
@@ -54,10 +57,21 @@ onMounted(async () => {
      *   await http.post({ url: 'backend url', data: { code } });
      */
   }
+  const { initDataRaw } = retrieveLaunchParams();
+  if (initDataRaw) {
+    authDataRaw.value = initDataRaw;
+
+    const resp = await http.post({
+      url: 'https://dev.emchub.ai/api/v1/auth/telegram',
+      data: { raw: initDataRaw },
+    });
+    userInfo.value = JSON.stringify(resp.data);
+  }
 });
 
 const router = useRouter();
 const message = useMessage();
+
 function onPressNext() {
   router.push({ name: 'test' });
 }

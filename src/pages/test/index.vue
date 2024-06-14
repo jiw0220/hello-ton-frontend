@@ -50,10 +50,6 @@ onMounted(async () => {
     async (_wallet: ConnectedWallet | null) => {
       wallet.value = _wallet;
       tonBalance.value = await tonClient!.getBalance(Address.parse(wallet.value!.account.address));
-      /**
-       * account
-       * { "address": "0:44ed450ee8693adf8f4eb8a3e0ebb07c1e2921b37395cf654591eef0e96c33a4"}
-       */
     },
     (err: TonConnectError) => {
       console.info(err.message);
@@ -68,7 +64,6 @@ onMounted(async () => {
     Address.parse(counterAddress.value) // replace with your address from tutorial 2 step 8
   );
   counterContract = tonClient.open(contract) as OpenedContract<Counter>;
-
   counterValue.value = await counterContract.getCounter();
 });
 
@@ -83,15 +78,14 @@ async function onPressSendTransaction() {
   await counterContract?.sendIncrement({
     send: async (args: SenderArguments) => {
       loading.value = true;
+      const body = {
+        address: args.to.toString(),
+        amount: args.value.toString(),
+        payload: args.body?.toBoc().toString('base64'),
+      };
       const resp = await tonConnectUI!
         .sendTransaction({
-          messages: [
-            {
-              address: args.to.toString(),
-              amount: args.value.toString(),
-              payload: args.body?.toBoc().toString('base64'),
-            },
-          ],
+          messages: [body],
           validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes for user to approve
         })
         .catch((reason) => {

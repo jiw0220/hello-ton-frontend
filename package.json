@@ -12,6 +12,7 @@
     "@emcecosystem/emchub-auth-client": "^1.0.12",
     "@orbs-network/ton-access": "^2.3.3",
     "@particle-network/wallet": "^1.4.6",
+    "@tma.js/sdk": "^2.5.0",
     "@ton/core": "^0.56.3",
     "@ton/crypto": "^3.2.0",
     "@ton/ton": "^13.11.1",
