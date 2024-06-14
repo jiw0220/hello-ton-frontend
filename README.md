@@ -1,13 +1,14 @@
 # Hello Ton Frontend
 
-### Install
+### Open in telegram
+
+> Send message "@EMCHubBot" or Search "EMCHubBot"
+
+> click "@EMCHubBot"
+
+### Run demo
 
 ```
 npm install
-```
-
-### Run
-
-```
 npm run dev
 ```

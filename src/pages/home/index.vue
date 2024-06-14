@@ -2,8 +2,8 @@
   <div class="page">
     <h3>Telegram Mini App Demo</h3>
     <div>platform: {{ platform }}</div>
-    <template v-if="isInTelegram">
-      <NAlert type="warning">Please open in the mini app</NAlert>
+    <template v-if="!isInTelegram">
+      <NAlert type="warning">Please open in telegram EMCHubBot</NAlert>
     </template>
     <template v-else>
       <div class="item">
@@ -16,8 +16,8 @@
       </div>
       <NButton type="primary" size="large" strong @click="onPressSignForTelegram">Sign for Telegram</NButton>
       <NButton type="primary" size="large" strong @click="onPressShowAlert">MiniApp Alert</NButton>
-      <NButton type="primary" size="large" strong @click="onPressTon">Test Ton</NButton>
     </template>
+    <NButton type="primary" size="large" strong @click="onPressTon">Test Ton</NButton>
   </div>
 </template>
 
