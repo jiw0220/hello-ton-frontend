@@ -14,7 +14,7 @@
         <h5>Telegram Mini App User</h5>
         <NInput type="textarea" :value="userInfo" :autosize="false" :disabled="true"></NInput>
       </div>
-      <NButton type="primary" size="large" strong @click="onPressSignForTelegram">Sign for Telegram</NButton>
+      <NButton type="primary" size="large" strong :loading="userInfoLoading" @click="onPressSignForTelegram">Sign for Telegram</NButton>
       <NButton type="primary" size="large" strong @click="onPressShowAlert">MiniApp Alert</NButton>
     </template>
     <NButton type="primary" size="large" strong @click="onPressTon">Test Ton</NButton>
@@ -29,24 +29,29 @@ import WebApp from '@twa-dev/sdk';
 import { retrieveLaunchParams } from '@tma.js/sdk';
 import { http } from '@/tools/http';
 
+const notification = useNotification();
+const router = useRouter();
+
 //pc(windows): "tdesktop", pc(macos): "macos", mobile(ios): "ios", mobile(android): "android"
 //Not in telegram is "unknown"
 const platform = ref(WebApp.platform);
 const isInTelegram = WebApp.platform !== 'unknown';
-const userInfo = ref('');
 const authDataRaw = ref('');
-const notification = useNotification();
-const router = useRouter();
+const userInfoLoading = ref(false);
+const userInfo = ref('');
 
 async function onPressSignForTelegram() {
   if (!authDataRaw.value) {
     notification.warning({ title: 'Failed', content: 'Please open in the mini app' });
     return;
   }
+  if (userInfoLoading.value) return;
+  userInfoLoading.value = true;
   const resp = await http.postJSON({
     url: 'https://dev.emchub.ai/api/v1/auth/telegram',
     data: { raw: authDataRaw.value },
   });
+  userInfoLoading.value = false;
   userInfo.value = JSON.stringify(resp.data);
 }
 
