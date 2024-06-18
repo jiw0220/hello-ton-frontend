@@ -1,14 +1,25 @@
 # Hello Ton Frontend
 
-### Open in telegram
+## Open in Telegram
 
-> Send message "@EMCHubBot" or Search "EMCHubBot"
+To access the bot in Telegram:
 
-> click "@EMCHubBot"
+1. Send a message to "@EMCHubBot" or search for "EMCHubBot".
+2. Click on "@EMCHubBot" to open the bot.
 
-### Run demo
+## Run Demo
 
+To run the demo locally, follow these steps:
+
+1. Install the necessary dependencies:
+
+```sh
+    npm install
 ```
-npm install
-npm run dev
+
+2. Start the development server:
+
+```sh
+    npm run dev
+
 ```
