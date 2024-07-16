@@ -3,6 +3,9 @@
 declare interface Window {
   $loadingBar: any;
   Telegram: any;
+  DeviceMotionEvent: Window.DeviceMotionEvent & {
+    requestPermission(): Promise<'granted' | 'denied'>;
+  };
 }
 
 declare type Resp = {
