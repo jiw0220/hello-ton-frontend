@@ -16,6 +16,7 @@
       </div>
       <NButton type="primary" size="large" strong :loading="userInfoLoading" @click="onPressSignForTelegram">Sign for Telegram</NButton>
       <NButton type="primary" size="large" strong @click="onPressShowAlert">MiniApp Alert</NButton>
+      <NButton type="primary" size="large" strong @click="onPressShake">Shake</NButton>
     </template>
     <NButton type="primary" size="large" strong @click="onPressTon">Test Ton</NButton>
   </div>
@@ -70,6 +71,10 @@ function onPressShowAlert() {
 
 function onPressTon() {
   router.push({ name: 'ton' });
+}
+
+function onPressShake() {
+  router.push({ name: 'shake' });
 }
 </script>
 
