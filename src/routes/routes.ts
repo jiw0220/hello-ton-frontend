@@ -21,4 +21,9 @@ export const routes = [
     path: '/ton',
     component: () => import('@/pages/ton/index.vue'),
   },
+  {
+    name:'shake',
+    path:'/shake',
+    component:()=>import('@/pages/shake/index.vue')
+  }
 ];
